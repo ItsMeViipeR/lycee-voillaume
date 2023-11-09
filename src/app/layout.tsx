@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/features/layout/Header";
+import clsx from "clsx";
+import { ThemeProvider } from "@/features/theme/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,10 +13,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Header />
+      <body className={clsx(inter.className, "bg-baackground h-full")}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
 
-        {children}
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
