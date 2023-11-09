@@ -16,6 +16,7 @@ export const ThemeToggle = () => {
         setTheme(theme === "light" ? "dark" : "light");
       }}
       title={theme === "light" ? "Enable dark theme" : "Enable light theme"}
+      className="ml-auto"
     >
       <SunMedium
         size={20}

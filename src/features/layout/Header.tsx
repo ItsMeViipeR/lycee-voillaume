@@ -1,69 +1,84 @@
 "use client";
 
+import { CSSProperties, useEffect, useState } from "react";
 import { ThemeToggle } from "../theme/ThemeToggle";
-import React, { ReactNode, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 
-export const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export function Header() {
+  useEffect(() => {
+    const navOpenBtn = document.querySelector(".btn-open")!;
+    const navCloseBtn = document.querySelector(".btn-close")!;
+    const nav = document.querySelector(".nav")!;
+    let opened = false;
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+    navOpenBtn.addEventListener("click", toggleNav);
+    navCloseBtn.addEventListener("click", toggleNav);
+
+    function toggleNav() {
+      if (opened) nav.classList.remove("nav--opened");
+      else nav.classList.add("nav--opened");
+      opened = !opened;
+    }
+  }, [document]);
 
   return (
-    <header className="fixed border-b border-b-accent mb-2 w-full">
-      <nav className="flex items-center justify-between p-4">
-        <div className="flex items-center">
-          <button
-            onClick={toggleMenu}
-            className="text-2xl text-gray-800 focus:outline-none lg:hidden"
-          >
-            <FontAwesomeIcon icon={faBars} />
+    <>
+      <nav className="nav">
+        <div className="nav--inner">
+          <button className="btn--nav btn-close" data-btn-close>
+            <div className="burger">
+              <span></span>
+            </div>
           </button>
-          <div className="hidden lg:flex space-x-4">
-            <NavLink href="/" label="Accueil" />
-            <NavLink href="/page2" label="Page 2" />
-            <NavLink href="/page3" label="Page 3" />
-            <NavLink href="/page4" label="Page 4" />
-            <NavLink href="/page5" label="Page 5" />
-            <NavLink href="/page6" label="Page 6" />
-            <NavLink href="/page7" label="Page 7" />
-            <NavLink href="/page8" label="Page 8" />
-            <NavLink href="/page9" label="Page 9" />
-            <NavLink href="/page10" label="Page 10" />
-          </div>
-        </div>
-        <div className="hidden lg:flex items-center space-x-4">
-          <ThemeToggle />
+          <ul>
+            <li
+              className="nav--item"
+              style={{ "--item-index": 0 } as CSSProperties}
+            >
+              <span className="nav--item-link">HOME</span>
+            </li>
+            <li
+              className="nav--item"
+              style={{ "--item-index": 1 } as CSSProperties}
+            >
+              <span className="nav--item-link">ABOUT</span>
+            </li>
+            <li
+              className="nav--item"
+              style={{ "--item-index": 2 } as CSSProperties}
+            >
+              <span className="nav--item-link">CONTACT</span>
+            </li>
+            <li
+              className="nav--item"
+              style={{ "--item-index": 3 } as CSSProperties}
+            >
+              <span className="nav--item-link">SOMETHING</span>
+            </li>
+          </ul>
         </div>
       </nav>
-      {isOpen && (
-        <div className="lg:hidden">
-          <div className="flex flex-col space-y-4 p-4">
-            <NavLink href="/" label="Accueil" />
-            <NavLink href="/page2" label="Page 2" />
-            <NavLink href="/page3" label="Page 3" />
-            <NavLink href="/page4" label="Page 4" />
-            <NavLink href="/page5" label="Page 5" />
-            <NavLink href="/page6" label="Page 6" />
-            <NavLink href="/page7" label="Page 7" />
-            <NavLink href="/page8" label="Page 8" />
-            <NavLink href="/page9" label="Page 9" />
-            <NavLink href="/page10" label="Page 10" />
-          </div>
-        </div>
-      )}
-    </header>
-  );
-};
 
-const NavLink = ({ href, label }: { href: string; label: ReactNode }) => {
-  return (
-    <a href={href} className="text-foreground hover:text-primary transition">
-      {label}
-    </a>
+      <header>
+        <button className="btn--nav btn-open" data-btn-open>
+          <div className="burger">
+            <span></span>
+          </div>
+          <span className="btn--text">Voillaume</span>
+        </button>
+      </header>
+
+      <div className="support">
+        <a href="https://codepen.io/vickkietrake" target="_blank">
+          <i className="fab fa-codepen"></i>
+        </a>
+
+        <a href="https://www.instagram.com/u.z.i.__/" target="_blank">
+          <i className="fab fa-instagram"></i>
+        </a>
+        <a href="https://dribbble.com/trake" target="_blank">
+          <i className="fab fa-dribbble"></i>
+        </a>
+      </div>
+    </>
   );
-};
+}
