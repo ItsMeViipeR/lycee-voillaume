@@ -1,101 +1,69 @@
 "use client";
 
 import { ThemeToggle } from "../theme/ThemeToggle";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 export const Header = () => {
-  const [showMobileNav, setShowMobileNav] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMobileNav = () => {
-    setShowMobileNav(!showMobileNav);
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
     <header className="fixed border-b border-b-accent mb-2 w-full">
-      <div className="container flex items-center py-2 m-auto gap-1">
-        <h2 className="text-2xl font-bold mr-auto">ViipeR</h2>
-
-        <nav className={"max-[500px]:hidden"}>
-          <ul className={"flex flex-row"}>
-            <li className={"ml-2"}>
-              <a href="/" className={"hover:underline"}>
-                Accueil
-              </a>
-            </li>
-            <li className={"ml-8"}>
-              <a href="/about" className={"hover:underline"}>
-                À propos
-              </a>
-            </li>
-            <li className={"ml-8"}>
-              <a href="/cv" className={"hover:underline"}>
-                CV
-              </a>
-            </li>
-            <li className="ml-8">
-              <a
-                href="/discord"
-                target={"_blank"}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all"
-              >
-                Discord
-              </a>
-            </li>
-            <li className="ml-8">
-              <a
-                href="https://github.com/ItsMeViipeR"
-                target={"_blank"}
-                className="bg-gray-800 hover:bg-black text-white font-bold py-2 px-4 rounded transition-all"
-              >
-                GitHub
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <ThemeToggle />
-        <Button
-          variant={"ghost"}
-          size="icon"
-          className={"md:hidden lg:hidden"}
-          onClick={toggleMobileNav}
-        >
-          <FontAwesomeIcon icon={faBars} />
-        </Button>
-      </div>
-      {showMobileNav && (
-        <nav datatype={"nav-mobile"}>
-          <ul className={"flex flex-col items-center"}>
-            <li className={"mb-2"}>
-              <a href="/">Accueil</a>
-            </li>
-            <li className={"mb-2"}>
-              <a href="/about">À propos</a>
-            </li>
-            <li className={"mb-2"}>
-              <a href="/cv">CV</a>
-            </li>
-            <li className={"mb-4 mt-2"}>
-              <a
-                href="https://discord.gg/zGk6BvGYx7"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all"
-              >
-                Discord
-              </a>
-            </li>
-            <li className={"mb-4 mt-2"}>
-              <a
-                href="https://github.com/ItsMeViipeR"
-                className="bg-gray-800 hover:bg-black text-white font-bold py-2 px-4 rounded transition-all"
-              >
-                GitHub
-              </a>
-            </li>
-          </ul>
-        </nav>
+      <nav className="flex items-center justify-between p-4">
+        <div className="flex items-center">
+          <button
+            onClick={toggleMenu}
+            className="text-2xl text-gray-800 focus:outline-none lg:hidden"
+          >
+            <FontAwesomeIcon icon={faBars} />
+          </button>
+          <div className="hidden lg:flex space-x-4">
+            <NavLink href="/" label="Accueil" />
+            <NavLink href="/page2" label="Page 2" />
+            <NavLink href="/page3" label="Page 3" />
+            <NavLink href="/page4" label="Page 4" />
+            <NavLink href="/page5" label="Page 5" />
+            <NavLink href="/page6" label="Page 6" />
+            <NavLink href="/page7" label="Page 7" />
+            <NavLink href="/page8" label="Page 8" />
+            <NavLink href="/page9" label="Page 9" />
+            <NavLink href="/page10" label="Page 10" />
+          </div>
+        </div>
+        <div className="hidden lg:flex items-center space-x-4">
+          <ThemeToggle />
+        </div>
+      </nav>
+      {isOpen && (
+        <div className="lg:hidden">
+          <div className="flex flex-col space-y-4 p-4">
+            <NavLink href="/" label="Accueil" />
+            <NavLink href="/page2" label="Page 2" />
+            <NavLink href="/page3" label="Page 3" />
+            <NavLink href="/page4" label="Page 4" />
+            <NavLink href="/page5" label="Page 5" />
+            <NavLink href="/page6" label="Page 6" />
+            <NavLink href="/page7" label="Page 7" />
+            <NavLink href="/page8" label="Page 8" />
+            <NavLink href="/page9" label="Page 9" />
+            <NavLink href="/page10" label="Page 10" />
+          </div>
+        </div>
       )}
     </header>
+  );
+};
+
+const NavLink = ({ href, label }: { href: string; label: ReactNode }) => {
+  return (
+    <a href={href} className="text-foreground hover:text-primary transition">
+      {label}
+    </a>
   );
 };
