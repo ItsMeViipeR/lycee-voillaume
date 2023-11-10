@@ -5,20 +5,22 @@ import { CSSProperties, useEffect, useState } from "react";
 
 export function Header() {
   useEffect(() => {
-    const navOpenBtn = document.querySelector(".btn-open")!;
-    const navCloseBtn = document.querySelector(".btn-close")!;
-    const nav = document.querySelector(".nav")!;
-    let opened = false;
+    if (typeof window !== "undefined") {
+      const navOpenBtn = document.querySelector(".btn-open")!;
+      const navCloseBtn = document.querySelector(".btn-close")!;
+      const nav = document.querySelector(".nav")!;
+      let opened = false;
 
-    navOpenBtn.addEventListener("click", toggleNav);
-    navCloseBtn.addEventListener("click", toggleNav);
+      const toggleNav = () => {
+        if (opened) nav.classList.remove("nav--opened");
+        else nav.classList.add("nav--opened");
+        opened = !opened;
+      };
 
-    function toggleNav() {
-      if (opened) nav.classList.remove("nav--opened");
-      else nav.classList.add("nav--opened");
-      opened = !opened;
+      navOpenBtn.addEventListener("click", toggleNav);
+      navCloseBtn.addEventListener("click", toggleNav);
     }
-  }, [document]);
+  }, []);
 
   return (
     <>
