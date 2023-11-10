@@ -1,7 +1,7 @@
 "use client";
 
+import Link from "next/link";
 import { CSSProperties, useEffect, useState } from "react";
-import { ThemeToggle } from "../theme/ThemeToggle";
 
 export function Header() {
   useEffect(() => {
@@ -34,25 +34,17 @@ export function Header() {
               className="nav--item"
               style={{ "--item-index": 0 } as CSSProperties}
             >
-              <span className="nav--item-link">HOME</span>
+              <Link href="/">
+                <span className="nav--item-link">HOME</span>
+              </Link>
             </li>
             <li
               className="nav--item"
               style={{ "--item-index": 1 } as CSSProperties}
             >
-              <span className="nav--item-link">ABOUT</span>
-            </li>
-            <li
-              className="nav--item"
-              style={{ "--item-index": 2 } as CSSProperties}
-            >
-              <span className="nav--item-link">CONTACT</span>
-            </li>
-            <li
-              className="nav--item"
-              style={{ "--item-index": 3 } as CSSProperties}
-            >
-              <span className="nav--item-link">SOMETHING</span>
+              <Link href="/actus">
+                <span className="nav--item-link">ABOUT</span>
+              </Link>
             </li>
           </ul>
         </div>
@@ -66,19 +58,6 @@ export function Header() {
           <span className="btn--text">Voillaume</span>
         </button>
       </header>
-
-      <div className="support">
-        <a href="https://codepen.io/vickkietrake" target="_blank">
-          <i className="fab fa-codepen"></i>
-        </a>
-
-        <a href="https://www.instagram.com/u.z.i.__/" target="_blank">
-          <i className="fab fa-instagram"></i>
-        </a>
-        <a href="https://dribbble.com/trake" target="_blank">
-          <i className="fab fa-dribbble"></i>
-        </a>
-      </div>
     </>
   );
 }

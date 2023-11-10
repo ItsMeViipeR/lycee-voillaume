@@ -1,4 +1,3 @@
-import { ThemeProvider } from "../features/theme/ThemeProvider";
 import "./globals.css";
 import "./css/navbar.css";
 import { Header } from "../features/layout/Header";
@@ -15,19 +14,12 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/logo.jpg" />
       </head>
-      <body className={clsx("bg-background h-full")}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="flex flex-col h-full">
-            <Header />
+      <body>
+        <div className="flex flex-col h-full">
+          <Header />
 
-            <div className="container">{children}</div>
-          </div>
-        </ThemeProvider>
+          <div className="container">{children}</div>
+        </div>
       </body>
     </html>
   );
