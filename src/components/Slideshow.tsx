@@ -1,13 +1,37 @@
 "use client";
 
-import { CSSProperties, useEffect, useRef, useState } from "react";
+import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 
 type Slide = {
   url: string;
 };
 
-export const Slideshow = ({ slides }: { slides: Slide[] }) => {
+export const Slideshow = ({
+  slides,
+  parentWidth,
+}: {
+  slides: Slide[];
+  parentWidth: number;
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const timerRef = useRef<NodeJS.Timeout>();
+
+  const goToNext = useCallback(() => {
+    const isLastSlide = currentIndex === slides.length - 1;
+    const newIndex = isLastSlide ? 0 : currentIndex + 1;
+
+    setCurrentIndex(newIndex);
+  }, [currentIndex, slides]);
+
+  useEffect(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    timerRef.current = setInterval(() => {
+      goToNext();
+    }, 2000);
+
+    return () => clearTimeout(timerRef.current!);
+  }, [goToNext]);
 
   const sliderStyles: CSSProperties = {
     height: "100%",
@@ -45,13 +69,38 @@ export const Slideshow = ({ slides }: { slides: Slide[] }) => {
     cursor: "pointer",
   };
 
-  const timerRef = useRef(null);
+  const dotsContainerStyles = {
+    display: "flex",
+    justifyContent: "center",
+  };
 
-  useEffect(() => {
-    // @ts-ignore
-    timerRef.current = setTimeout(() => {
-      goToNext();
-    }, 2000);
+  const dotStyle = {
+    margin: "0 3px",
+    cursor: "pointer",
+    fontSize: "20px",
+  };
+
+  const slidesContainerStyles: CSSProperties = {
+    display: "flex",
+    height: "100%",
+    transition: "transform ease-out 1s",
+  };
+
+  const slidesContainerOverflowStyles: CSSProperties = {
+    overflow: "hidden",
+    height: "100%",
+  };
+
+  const getSlideStylesWithBackground = (slideIndex: number) => ({
+    ...slideStyles,
+    backgroudImage: `url(${slides[slideIndex].url})`,
+    width: `${parentWidth}px`,
+  });
+
+  const getSlidesContainerStylesWithWidth = () => ({
+    ...slidesContainerStyles,
+    width: parentWidth * slides.length,
+    transform: `translateX(-${currentIndex * parentWidth}px)`,
   });
 
   const goToPrevious = () => {
@@ -61,23 +110,40 @@ export const Slideshow = ({ slides }: { slides: Slide[] }) => {
     setCurrentIndex(newIndex);
   };
 
-  const goToNext = () => {
-    const isLastSlide = currentIndex === slides.length - 1;
-    const newIndex = isLastSlide ? 0 : currentIndex + 1;
-
-    setCurrentIndex(newIndex);
+  const goToSlide = (slideIndex: number) => {
+    setCurrentIndex(slideIndex);
   };
 
   return (
     <>
-      <div style={leftArrowStyles} onClick={() => goToPrevious()}>
-        ❰
-      </div>
       <div style={sliderStyles}>
-        <div style={slideStyles}></div>
-      </div>
-      <div style={rightArrowStyles} onClick={() => goToNext()}>
-        ❱
+        <div style={leftArrowStyles} onClick={() => goToPrevious()}>
+          ❰
+        </div>
+        <div style={rightArrowStyles} onClick={() => goToNext()}>
+          ❱
+        </div>
+        <div style={slidesContainerOverflowStyles}>
+          <div style={getSlidesContainerStylesWithWidth()}>
+            {slides.map((_, slideIndex) => (
+              <div
+                key={slideIndex}
+                style={getSlideStylesWithBackground(slideIndex)}
+              ></div>
+            ))}
+          </div>
+        </div>
+        <div style={dotsContainerStyles}>
+          {slides.map((slide, slideIndex) => (
+            <div
+              style={dotStyle}
+              key={slideIndex}
+              onClick={() => goToSlide(slideIndex)}
+            >
+              {slideIndex === currentIndex ? "●" : "○"}
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
